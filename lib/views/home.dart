@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:recipeapp/models/recipe_model.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,15 +14,23 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  // ignore: deprecated_member_use
+  List<RecipeModel> recipes = new List<RecipeModel>();
   TextEditingController textEditingController = new TextEditingController();
 
   String applicationId = "39401c86";
   String applicationKey = "51ce5ff49bab2708dc9342613a78408a";
 
-  getRecipes(String query){
+  getRecipes(String query) async {
 
-    String url = "https://api.edamam.com/search?q=chicken&app_id=$applicationId&app_key=$applicationKey";
+    String url = "https://api.edamam.com/search?q=$query&app_id=$applicationId&app_key=$applicationKey";
 
+    var response = await http.get(Uri.parse(url));
+    Map<String,dynamic> jsonData = jsonDecode(response.body);
+
+    jsonData["hits"].forEach((element){
+      print(element.toString());
+    });
   }
 
   @override
@@ -80,10 +90,10 @@ class _HomeState extends State<Home> {
                       child: TextField(
                         controller: textEditingController,
                         decoration: InputDecoration(
-                          hintText: "Enter Ingridients",
+                          hintText: "Enter Ingredients",
                           hintStyle: TextStyle(
                             fontSize: 18,
-                            color: Colors.white
+                            color: Colors.grey
                           )
                         ),
                         style: TextStyle(
