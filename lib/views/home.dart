@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
 
   getRecipes(String query){
 
-    String url = "https://api.edamam.com/search?q=chicken&app_id=$applicationId&app_key=$applicationKey&from=0&to=3&calories=591-722&health=alcohol-free";
+    String url = "https://api.edamam.com/search?q=chicken&app_id=$applicationId&app_key=$applicationKey";
 
   }
 
